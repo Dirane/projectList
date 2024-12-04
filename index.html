@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Selection Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1,
+        h2 {
+            color: #783CF0;
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        button {
+            background: #783CF0;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5a2bc1;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Project Selection Form</h1>
+
+    <!-- Login Form -->
+    <form id="loginForm">
+        <h2>Login</h2>
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required>
+
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required>
+
+        <button type="submit">Login</button>
+        <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="signupForm" class="hidden">
+        <h2>Sign Up</h2>
+        <label for="signupName">Name</label>
+        <input type="text" id="signupName" required>
+
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" required>
+
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required>
+
+        <label for="signupRole">Role</label>
+        <select id="signupRole">
+            <option value="student">Student</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <button type="submit">Sign Up</button>
+        <p>Already have an account? <a href="#" id="showLogin">Log in</a></p>
+    </form>
+
+    <!-- Project Selection Form -->
+    <form id="projectForm" class="hidden">
+        <h2>Project Selection</h2>
+        <label for="firstPreference">First Preference</label>
+        <select id="firstPreference"></select>
+
+        <label for="secondPreference">Second Preference</label>
+        <select id="secondPreference"></select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Admin View -->
+    <div id="adminView" class="hidden">
+        <h2>Admin Panel</h2>
+        <div id="submissions"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
