@@ -130,12 +130,40 @@ const projectList = document.getElementById('projectList');
 // Track logged-in user
 let loggedInUser = null;
 
-// Populate project descriptions
+const projectCards = document.getElementById('projectCards');
+const backToFormButton = document.getElementById('backToFormButton');
+
+// Populate the project description section with cards
 function populateProjectDescriptions() {
-    projectList.innerHTML = Object.entries(projectDescriptions)
-        .map(([project, description]) => `<li><strong>${project}</strong>: ${description}</li>`)
+    projectCards.innerHTML = Object.entries(projectDescriptions)
+        .map(([project, description]) => `
+            <div class="card">
+                <div class="card-title">${project}</div>
+                <div class="card-content">${description}</div>
+            </div>
+        `)
         .join('');
 }
+
+// Handle "Back to Form" button
+backToFormButton.addEventListener('click', () => {
+    showView(projectForm);
+});
+
+// Ensure descriptions are hidden after logout or navigating away
+logoutButton.addEventListener('click', () => {
+    loggedInUser = null;
+    showView(loginForm);
+    logoutButton.classList.add('hidden');
+    projectDescriptionLink.classList.add('hidden');
+    projectDescriptionPage.classList.add('hidden');
+});
+
+projectDescriptionLink.addEventListener('click', () => {
+    populateProjectDescriptions();
+    showView(projectDescriptionPage);
+});
+
 
 // Logout function
 logoutButton.addEventListener('click', () => {
@@ -214,3 +242,66 @@ projectForm.addEventListener('submit', (e) => {
 
     alert('Submission updated successfully!');
 });
+const approvalList = document.getElementById('approvalList');
+const projectAssignments = {}; // Track approved projects for each user
+
+// Render admin approval list
+function updateAdminApprovalView() {
+    approvalList.innerHTML = submissions.map((submission, index) => {
+        const { name, email, first, second, timestamp } = submission;
+        const isApproved = !!projectAssignments[email]; // Check if a topic is already assigned
+
+        return `
+            <div class="approval-card">
+                <h3>${name} (${email})</h3>
+                <p><strong>First Preference:</strong> ${first}</p>
+                <p><strong>Second Preference:</strong> ${second}</p>
+                <p><strong>Submitted:</strong> ${timestamp}</p>
+                ${isApproved
+                ? `<p><strong>Approved:</strong> ${projectAssignments[email]}</p>`
+                : `<div class="approval-buttons">
+                          <button onclick="approveTopic('${email}', '${first}')">Approve ${first}</button>
+                          <button onclick="approveTopic('${email}', '${second}')">Approve ${second}</button>
+                      </div>`
+            }
+            </div>
+        `;
+    }).join('');
+}
+
+// Approve a topic for a user
+function approveTopic(userEmail, topic) {
+    if (Object.values(projectAssignments).includes(topic)) {
+        alert(`The topic "${topic}" has already been approved for another user.`);
+        return;
+    }
+
+    projectAssignments[userEmail] = topic;
+    updateAdminApprovalView();
+    localStorage.setItem('projectAssignments', JSON.stringify(projectAssignments));
+}
+const assignedProjectMessage = document.getElementById('assignedProjectMessage');
+
+// Display assigned project for the logged-in user
+function showUserAssignedProject() {
+    const assignedProject = projectAssignments[loggedInUser.email];
+
+    if (assignedProject) {
+        assignedProjectMessage.innerHTML = `Your assigned project topic is <strong>${assignedProject}</strong>.`;
+    } else {
+        assignedProjectMessage.innerHTML = `You have not been assigned a project topic yet. Please wait for admin approval.`;
+    }
+
+    showView(userAssignedProject);
+}
+
+// Link to assigned project view (example usage)
+const viewAssignedProjectLink = document.createElement('a');
+viewAssignedProjectLink.textContent = 'View Assigned Project';
+viewAssignedProjectLink.href = '#';
+viewAssignedProjectLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showUserAssignedProject();
+});
+
+projectForm.appendChild(viewAssignedProjectLink);

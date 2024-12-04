@@ -57,6 +57,76 @@
         .hidden {
             display: none;
         }
+
+        /* Card container */
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Individual card */
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Card title */
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        /* Card content */
+        .card-content {
+            font-size: 14px;
+            color: #666;
+            text-align: left;
+        }
+
+        /* Admin Approval List */
+        .approval-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 20px;
+        }
+
+        .approval-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            padding: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .approval-card h3 {
+            margin: 0 0 8px;
+        }
+
+        .approval-card p {
+            margin: 4px 0;
+        }
+
+        .approval-buttons {
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+        }
     </style>
 </head>
 
@@ -115,9 +185,15 @@
     <!-- Project Description Page -->
     <div id="projectDescriptionPage" class="hidden">
         <h2>Project Descriptions</h2>
-        <ul id="projectList"></ul>
-        <button onclick="showView(projectForm)">Back to Form</button>
+        <div id="projectCards" class="cards-container"></div>
+        <button id="backToFormButton">Back to Form</button>
     </div>
+
+    <div id="userAssignedProject" class="hidden">
+        <h2>Your Assigned Project</h2>
+        <p id="assignedProjectMessage"></p>
+    </div>
+
 
     <!-- Admin View -->
     <div id="adminView" class="hidden">
@@ -125,6 +201,10 @@
         <div id="submissions"></div>
     </div>
 
+    <div id="adminApprovalView" class="hidden">
+        <h2>Admin: Approve Project Selections</h2>
+        <div id="approvalList" class="approval-container"></div>
+    </div>
 
     <script src="script.js"></script>
 </body>
